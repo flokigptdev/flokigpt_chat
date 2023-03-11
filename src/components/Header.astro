@@ -1,0 +1,33 @@
+---
+import Logo from './Logo.astro'
+import Themetoggle from './Themetoggle.astro'
+---
+<style>
+  .header{
+    position:fixed; 
+    width:180px;
+    margin:30px;
+    text-align: center;
+  }
+
+  @media (max-width:1230px){
+    .header{
+      padding-top:50px;
+      position:initial; 
+      width:180px;
+      margin:0 auto;
+      text-align: center;
+    }
+  }
+</style>
+<header class="header">
+  <div class="fb">
+    <Logo />
+    <Themetoggle />
+  </div>
+  <div class="fi mt-2">
+    <!-- <span class="gpt-title">Floki</span>
+    <span class="gpt-subtitle">GPT</span> -->
+  </div>
+  <p mt-1 op-60>Based on GPT 3.5 SDK</p>
+</header>
