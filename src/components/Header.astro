@@ -19,7 +19,29 @@ import Themetoggle from './Themetoggle.astro'
       text-align: center;
     }
   }
+
+  #account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+
+    font-size: 1rem;
+    color: #aeb2b7;
+    font-weight: 300;
+    margin-top: 1rem;
+  }
+
+  #loading {
+    background: #000;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+  }
+  
 </style>
+
+<div id="loading"><img src="/loader.gif" /></div>
 <header class="header">
   <div class="fb">
     <Logo />
@@ -30,4 +52,66 @@ import Themetoggle from './Themetoggle.astro'
     <span class="gpt-subtitle">GPT</span> -->
   </div>
   <p mt-1 op-60>Based on GPT 3.5 SDK</p>
+  <div id="account"></div>
+
 </header>
+
+
+<script>
+  import { configureChains, createClient, watchAccount, disconnect } from '@wagmi/core'
+  import { bscTestnet, bsc} from '@wagmi/core/chains'
+  import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+
+
+  import clientList from '../clientList';
+
+    // 1. Define constants
+  const projectId = '8e6b5ffdcbc9794bf9f4a1952578365b'
+  const chains = [bsc, bscTestnet]
+
+  // 2. Configure wagmi client
+  const { provider } = configureChains(chains, [w3mProvider({ projectId })])
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors: [...w3mConnectors({ chains, version: 1, projectId })],
+    provider
+  })
+
+  const ethereumClient = new EthereumClient(wagmiClient, chains);
+
+  const clientAddress = ethereumClient.getAccount().address;
+
+  /* if(!clientAddress || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase())) {
+    window.location.href = "/connect";
+  } */
+  if(!clientAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
+    window.location.href = "/connect";
+  }
+
+  watchAccount((account) => {
+    const loading = document.querySelector('#loading');
+    loading.style.display = "block";
+
+    const clientAddress = account.address;
+    if(!clientAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
+      window.location.href = "/connect";
+    } else {
+      const addressSpan = document.querySelector('#account');
+      const resumedAddressA = clientAddress.slice(0, 5);
+      const resumedAddressB = clientAddress.slice(-4);
+      const resumedAddress = `
+        <span class="home-page__address">${resumedAddressA}...${resumedAddressB}</span>
+        <button type="button" id="home-page__disconnectButton"><img src="/logout-icon.svg" class="home-page__disconnectIcon" width="20"/></button>
+      `;
+      addressSpan.innerHTML = resumedAddress;
+
+      const disconnectButton = document.querySelector('#home-page__disconnectButton');
+      disconnectButton.addEventListener('click', () => {
+        disconnect()
+      });
+
+      loading.style.display = "none";
+    }
+  });
+
+</script>

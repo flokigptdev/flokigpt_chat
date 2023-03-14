@@ -21,6 +21,10 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{ import.meta.env.HEAD_SCRIPTS ? <Fragment set:html={import.meta.env.HEAD_SCRIPTS} /> : null }
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<slot />
@@ -43,7 +47,7 @@ const { title } = Astro.props;
 	}
 
 	html.dark {
-		--c-bg: #1d1d1d;
+		--c-bg: #282624;
 		--c-fg: #ddddf0;
 		--c-scroll: #333333;
 		--c-scroll-hover: #555555;
