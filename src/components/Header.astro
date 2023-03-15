@@ -79,7 +79,8 @@ import Themetoggle from './Themetoggle.astro'
 
   const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-  const clientAddress = ethereumClient.getAccount().address;
+  /* const clientAddress = ethereumClient.getAccount().address; */
+  const ethereumAddress = ethereumClient.getAccount().address;
 
   /* if(!clientAddress || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase())) {
     window.location.href = "/connect";
@@ -93,7 +94,10 @@ import Themetoggle from './Themetoggle.astro'
     loading.style.display = "block";
 
     const clientAddress = account.address;
-    if(!clientAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
+
+
+    
+    if(!clientAddress || !ethereumAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
       window.location.href = "/connect";
     } else {
       const addressSpan = document.querySelector('#account');
