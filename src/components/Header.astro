@@ -97,12 +97,16 @@ import Themetoggle from './Themetoggle.astro'
 
 
     
-    if(!clientAddress || !ethereumAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
+    if(!clientAddress && !ethereumAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
       window.location.href = "/connect";
+
     } else {
+
+      const mainAddress = clientAddress || ethereumAddress;
+
       const addressSpan = document.querySelector('#account');
-      const resumedAddressA = clientAddress.slice(0, 5);
-      const resumedAddressB = clientAddress.slice(-4);
+      const resumedAddressA = mainAddress.slice(0, 5);
+      const resumedAddressB = mainAddress.slice(-4);
       const resumedAddress = `
         <span class="home-page__address">${resumedAddressA}...${resumedAddressB}</span>
         <button type="button" id="home-page__disconnectButton"><img src="/logout-icon.svg" class="home-page__disconnectIcon" width="20"/></button>
@@ -111,7 +115,7 @@ import Themetoggle from './Themetoggle.astro'
 
       const disconnectButton = document.querySelector('#home-page__disconnectButton');
       disconnectButton.addEventListener('click', () => {
-        disconnect()
+        disconnect();
       });
 
       loading.style.display = "none";
