@@ -116,6 +116,7 @@ import Themetoggle from './Themetoggle.astro'
       const disconnectButton = document.querySelector('#home-page__disconnectButton');
       disconnectButton.addEventListener('click', () => {
         disconnect();
+        window.location.reload();
       });
 
       loading.style.display = "none";
