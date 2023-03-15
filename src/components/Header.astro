@@ -84,9 +84,9 @@ import Themetoggle from './Themetoggle.astro'
   /* if(!clientAddress || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase())) {
     window.location.href = "/connect";
   } */
-  if(!clientAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
-    window.location.href = "/connect";
-  }
+  //if(!clientAddress /* || !clientList.find((item) => clientAddress.toLowerCase() === item.toLowerCase()) */) {
+  //  window.location.href = "/connect";
+  //}
 
   watchAccount((account) => {
     const loading = document.querySelector('#loading');
