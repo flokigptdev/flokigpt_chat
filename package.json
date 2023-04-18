@@ -22,7 +22,6 @@
     "@web3modal/ethereum": "^2.2.0",
     "@web3modal/html": "^2.2.0",
     "astro": "^2.0.15",
-    "ethers": "^5",
     "eventsource-parser": "^0.1.0",
     "highlight.js": "^11.7.0",
     "js-sha256": "^0.9.0",
@@ -33,6 +32,7 @@
     "solid-js": "1.6.12",
     "solidjs-use": "^1.2.0",
     "undici": "^5.20.0",
+    "web3": "^1.8.2",
     "web3modal": "^1.9.12"
   },
   "devDependencies": {

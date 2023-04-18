@@ -1,46 +1,52 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Logo from '../components/Logo.astro';
+import Layout from "../layouts/Layout.astro";
+import Logo from "../components/Logo.astro";
 
-import 'katex/dist/katex.min.css'
-import 'highlight.js/styles/atom-one-dark.css'
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/atom-one-dark.css";
 ---
+
 <Layout title="Floki GPT Connect Wallet">
-<div id="loading"><img src="/loader.gif" /></div>
-<main class="connect-page">
-     <img src="./logo2.png" width="180px" alt="Floki Gpt Ai" title="Floki GPT">
+  <div id="loading"><img src="/loader.gif" /></div>
+  <main class="connect-page">
+    <img src="./logo2.png" width="180px" alt="Floki Gpt Ai" title="Floki GPT" />
     <h1 id="connect-page__title">Connect your wallet</h1>
-    <p id="connect-page__subtitle">You must be connected to see floki gpt tools! <br /> <b style="color:brown">Soon, access to this tool will be restricted to $FGPT holders only.</b></p>
+    <p id="connect-page__subtitle">
+      You must be connected to see floki gpt tools! <br />
+      <b style="color:brown"
+        >Soon, access to this tool will be restricted to $FGPT holders only.</b>
+    </p>
 
     <button type="button" id="connect-page__button">Connect wallet</button>
-    <button type="button" id="connect-page__disconnectBbutton">Disconnect</button>
-</main>
+    <button type="button" id="connect-page__disconnectBbutton"
+      >Disconnect</button
+    >
+  </main>
 </Layout>
-
 
 <style>
   .connect-page {
     text-align: center;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
-  .connect-page img{
+  .connect-page img {
     margin: 2rem auto;
   }
-  
-  .connect-page #connect-page__title{
+
+  .connect-page #connect-page__title {
     font-size: 3rem;
     color: #fff;
     font-weight: 700;
   }
-  
-  .connect-page #connect-page__subtitle{
+
+  .connect-page #connect-page__subtitle {
     font-size: 1rem;
     color: #aeb2b7;
     font-weight: 300;
     margin-top: 2rem;
   }
   .connect-page #connect-page__button,
-  .connect-page #connect-page__disconnectBbutton{
+  .connect-page #connect-page__disconnectBbutton {
     background: #ff6600;
     border-radius: 0.75rem;
     padding: 0.5rem 1rem;
@@ -57,69 +63,109 @@ import 'highlight.js/styles/atom-one-dark.css'
     inset: 0;
     z-index: 1;
   }
-
 </style>
 
 <script>
-
-import { configureChains, createClient, watchAccount, disconnect } from '@wagmi/core'
-import { bsc, bscTestnet, arbitrum, avalanche, mainnet, polygon } from '@wagmi/core/chains'
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/html'
-import clientList from '../clientList';
+  import {
+    configureChains,
+    createClient,
+    watchAccount,
+    disconnect,
+    fetchBalance,
+  } from "@wagmi/core";
+  import {
+    bsc,
+    bscTestnet,
+    arbitrum,
+    avalanche,
+    mainnet,
+    polygon,
+  } from "@wagmi/core/chains";
+  import {
+    EthereumClient,
+    w3mConnectors,
+    w3mProvider,
+  } from "@web3modal/ethereum";
+  import { Web3Modal } from "@web3modal/html";
+  import clientList from "../clientList";
 
   // 1. Define constants
-const projectId = '8e6b5ffdcbc9794bf9f4a1952578365b'
-const chains = [bsc, bscTestnet]
+  const projectId = "8e6b5ffdcbc9794bf9f4a1952578365b";
+  const chains = [bsc, bscTestnet];
 
-// 2. Configure wagmi client
-const { provider } = configureChains(chains, [w3mProvider({ projectId })])
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: [...w3mConnectors({ chains, version: 1, projectId })],
-  provider
-})
-
-// 3. Create ethereum and modal clients
-const ethereumClient = new EthereumClient(wagmiClient, chains)
-const web3Modal = new Web3Modal(
-  {
-    projectId,
-  },
-  ethereumClient
-);
-
-  window.addEventListener("load", () => {
-      web3Modal.setTheme({
-        themeMode: 'dark',
-        themeVariables: {
-          '--w3m-font-family': 'system-ui, sans-serif',
-          '--w3m-accent-color': '#ff6600',
-          '--w3m-background-color': '#ff6600',
-          '--w3m-background-border-radius': '24px',	
-        }
-      })
-
-      const connectButton = document.querySelector('#connect-page__button'); 
-      connectButton.addEventListener('click', () => {
-        web3Modal.openModal();
-      });
-      
-      const disconnectButton = document.querySelector('#connect-page__disconnectBbutton');
-      disconnectButton.addEventListener('click', () => {
-        const connectSubtitle = document.querySelector('#connect-page__subtitle');
-        connectSubtitle.innerHTML = "You must be connected to see floki gpt content!  <br /> <b style='color:brown'>Soon, access to this tool will be restricted to $FGPT holders only.</b>";
-        disconnect();
-      });
+  // 2. Configure wagmi client
+  const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors: [...w3mConnectors({ chains, version: 1, projectId })],
+    provider,
   });
 
+  // 3. Create ethereum and modal clients
+  const ethereumClient = new EthereumClient(wagmiClient, chains);
+  const web3Modal = new Web3Modal(
+    {
+      projectId,
+    },
+    ethereumClient
+  );
+
+  const ethereumAddress = ethereumClient.getAccount().address;
+
+  window.addEventListener("load", () => {
+    web3Modal.setTheme({
+      themeMode: "dark",
+      themeVariables: {
+        "--w3m-font-family": "system-ui, sans-serif",
+        "--w3m-accent-color": "#ff6600",
+        "--w3m-background-color": "#ff6600",
+        "--w3m-background-border-radius": "24px",
+      },
+    });
+
+    const connectButton = document.querySelector("#connect-page__button");
+    connectButton.addEventListener("click", () => {
+      web3Modal.openModal();
+    });
+
+    const disconnectButton = document.querySelector(
+      "#connect-page__disconnectBbutton"
+    );
+    disconnectButton.addEventListener("click", () => {
+      const connectSubtitle = document.querySelector("#connect-page__subtitle");
+      connectSubtitle.innerHTML =
+        "You must be connected to see floki gpt content!  <br /> <b style='color:brown'>Soon, access to this tool will be restricted to $FGPT holders only.</b>";
+      disconnect();
+    });
+  });
+
+  async function getBalanceToken(_address) {
+    let balancete = await fetchBalance({
+      address: _address,
+      token: "0x5AAd894B3015904265aeac1dB64fD0f028e8448F", // $FGPT
+      formatUnits: "gwei",
+    });
+
+    return balancete;
+  }
+
   watchAccount((account) => {
-    const loading = document.querySelector('#loading');
+    getBalanceToken(account.address).then((response) => {
+      console.log(response.formatted);
+
+      verifyAccount(response.formatted, account);
+    });
+  });
+
+  function verifyAccount(balance, account) {
+    const loading = document.querySelector("#loading");
     loading.style.display = "block";
 
-    if(account.address /*  && clientList.find((item) => account.address.toLowerCase() === item.toLowerCase()) */) {
+    if (
+      account.address && balance > 10000/*  && clientList.find((item) => account.address.toLowerCase() === item.toLowerCase()) */
+    ){
       window.location.href = "/";
-    } else if(account.address) {
+    } else if (account.address && balance < 10000) {
 
       const clientAddress = account.address;
       const resumedAddressA = clientAddress.slice(0, 5);
@@ -128,38 +174,37 @@ const web3Modal = new Web3Modal(
         <span class="home-page__address">${resumedAddressA}...${resumedAddressB}</span>
       `;
 
-      const connectButton = document.querySelector('#connect-page__button');
+      const connectButton = document.querySelector("#connect-page__button");
       connectButton.style.display = "none";
 
-      const disconnectButton = document.querySelector('#connect-page__disconnectBbutton');
+      const disconnectButton = document.querySelector(
+        "#connect-page__disconnectBbutton"
+      );
       disconnectButton.style.display = "block";
-      
-      const connectSubtitle = document.querySelector('#connect-page__subtitle');
+
+      const connectSubtitle = document.querySelector("#connect-page__subtitle");
       connectSubtitle.innerHTML = "<p>" + resumedAddress + "</p>";
-      
-      const connectTitle = document.querySelector('#connect-page__title');
+
+      const connectTitle = document.querySelector("#connect-page__title");
       connectTitle.innerHTML = "Sorry, you are not allowed &#128532; <br />";
 
       loading.style.display = "none";
-
     } else {
-      const connectButton = document.querySelector('#connect-page__button');
+      const connectButton = document.querySelector("#connect-page__button");
       connectButton.style.display = "block";
-      
-      const disconnectButton = document.querySelector('#connect-page__disconnectBbutton');
+
+      const disconnectButton = document.querySelector(
+        "#connect-page__disconnectBbutton"
+      );
       disconnectButton.style.display = "none";
 
-      const connectSubtitle = document.querySelector('#connect-page__subtitle');
+      const connectSubtitle = document.querySelector("#connect-page__subtitle");
       connectSubtitle.style.display = "block";
 
-      const connectTitle = document.querySelector('#connect-page__title');
+      const connectTitle = document.querySelector("#connect-page__title");
       connectTitle.innerHTML = "Connect your wallet";
 
       loading.style.display = "none";
     }
-
-  });
-
-
+  }
 </script>
-
