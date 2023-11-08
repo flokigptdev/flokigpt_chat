@@ -6,15 +6,15 @@ import "katex/dist/katex.min.css";
 import "highlight.js/styles/atom-one-dark.css";
 ---
 
-<Layout title="GROKI 2.0 Connect Wallet">
+<Layout title="GROK 2.0 Connect Wallet">
   <div id="loading"><img src="/loader.gif" /></div>
   <main class="connect-page">
-    <img src="./logo.png" width="130px" alt="GROKI AI 2.0" title="GLOKI 2.0" />
+    <img src="./logo.png" width="130px" alt="GROK AI 2.0" title="GLOKI 2.0" />
     <h1 id="connect-page__title">Connect your wallet</h1>
     <p id="connect-page__subtitle">
-      You must be connected to see Groki 2.0 tools! <br />
+      You must be connected to see GROK 2.0 tools! <br />
       <b style="color:brown"
-        >Soon, access to this tool will be restricted to $GROKI20 holders only.</b>
+        >Soon, access to this tool will be restricted to $GROK20 holders only.</b>
     </p>
 
     <button type="button" id="connect-page__button">Connect wallet</button>
@@ -134,7 +134,7 @@ import "highlight.js/styles/atom-one-dark.css";
     disconnectButton.addEventListener("click", () => {
       const connectSubtitle = document.querySelector("#connect-page__subtitle");
       connectSubtitle.innerHTML =
-        "You must be connected to see Groki 2.0 content!  <br /> <b style='color:brown'>Soon, access to this tool will be restricted to $GROKI20 holders only.</b>";
+        "You must be connected to see GROK 2.0 content!  <br /> <b style='color:brown'>Soon, access to this tool will be restricted to $GROK20 holders only.</b>";
       disconnect();
     });
   });
@@ -142,7 +142,7 @@ import "highlight.js/styles/atom-one-dark.css";
   async function getBalanceToken(_address) {
     let balancete = await fetchBalance({
       address: _address,
-      token: "0x7a76573b4e0207f58921C7356B800B6cea590131", // $GROKI20
+      token: "0x7a76573b4e0207f58921C7356B800B6cea590131", // $GROK20
       formatUnits: "gwei",
     });
 
