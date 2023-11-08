@@ -1,5 +1,5 @@
 .message pre {
-  background-color: #64748b10;
+  background-color: rgba(150, 137, 20, 0.063);
   font-size: 0.8rem;
   padding: 0.4rem 1rem;
 }
@@ -13,7 +13,7 @@
 }
 
 .message table thead tr {
-  background-color: #64748b40;
+  background-color: #8b876440;
   text-align: left;
 }
 
@@ -22,5 +22,5 @@
 }
 
 .message table tbody tr:last-of-type {
-  border-bottom: 2px solid #64748b40;
+  border-bottom: 2px solid #8b876440;
 }
